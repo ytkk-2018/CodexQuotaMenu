@@ -9,7 +9,7 @@ macOS 菜单栏用双层四分之三圆环显示当前账号的 Codex 额度：�
 需要 macOS 13 或更新版本、Swift 编译器，以及已登录的 Codex 桌面应用或 CLI。在终端进入本项目目录，运行：
 
 ```sh
-./build.sh
+zsh build.sh
 open "Codex Quota.app"
 ```
 

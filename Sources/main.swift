@@ -16,7 +16,7 @@ private struct QuotaSnapshot {
 }
 
 private enum RingIcon {
-    static let size = NSSize(width: 40, height: 28)
+    static let size = NSSize(width: 28, height: 28)
 
     static func make(fiveHour: Int?, weekly: Int?, failed: Bool = false) -> NSImage {
         NSImage(size: size, flipped: false) { rect in
@@ -48,7 +48,7 @@ private enum RingIcon {
                  color: NSColor.systemGreen)
 
             let label = fiveHour.map(String.init) ?? (failed ? "!" : "…")
-            let font = NSFont.monospacedDigitSystemFont(ofSize: label.count >= 4 ? 6.7 : 7.3,
+            let font = NSFont.monospacedDigitSystemFont(ofSize: label.count >= 3 ? 6.7 : 7.3,
                                                          weight: .semibold)
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: font,
@@ -284,15 +284,19 @@ private final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate
 
 if CommandLine.arguments.count == 3 && CommandLine.arguments[1] == "--preview" {
     let image = RingIcon.make(fiveHour: 79, weekly: 81)
-    let bitmap = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 400, pixelsHigh: 280,
+    let previewWidth = Int(RingIcon.size.width * 10)
+    let previewHeight = Int(RingIcon.size.height * 10)
+    let previewRect = NSRect(x: 0, y: 0, width: previewWidth, height: previewHeight)
+    let bitmap = NSBitmapImageRep(bitmapDataPlanes: nil,
+                                  pixelsWide: previewWidth, pixelsHigh: previewHeight,
                                   bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true,
                                   isPlanar: false, colorSpaceName: .deviceRGB,
                                   bytesPerRow: 0, bitsPerPixel: 0)!
     NSGraphicsContext.saveGraphicsState()
     NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
     NSColor.white.setFill()
-    NSRect(x: 0, y: 0, width: 400, height: 280).fill()
-    image.draw(in: NSRect(x: 0, y: 0, width: 400, height: 280))
+    previewRect.fill()
+    image.draw(in: previewRect)
     NSGraphicsContext.restoreGraphicsState()
     if let png = bitmap.representation(using: .png, properties: [:]) {
         try png.write(to: URL(fileURLWithPath: CommandLine.arguments[2]))

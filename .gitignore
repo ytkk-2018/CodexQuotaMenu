@@ -1,0 +1,5 @@
+.DS_Store
+Codex Quota.app/
+*.dSYM/
+.build/
+.swiftpm/

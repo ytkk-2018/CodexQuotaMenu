@@ -47,7 +47,7 @@ private enum RingIcon {
             ring(radius: 8.7, width: 2.3, remaining: fiveHour,
                  color: NSColor.systemGreen)
 
-            let label = fiveHour.map { "\($0)%" } ?? (failed ? "!" : "…")
+            let label = fiveHour.map(String.init) ?? (failed ? "!" : "…")
             let font = NSFont.monospacedDigitSystemFont(ofSize: label.count >= 4 ? 6.7 : 7.3,
                                                          weight: .semibold)
             let attributes: [NSAttributedString.Key: Any] = [
